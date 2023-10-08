@@ -251,13 +251,22 @@ def transp_decryptMessage(cipher):
 
 def main_encrypt(password, vigkey, affkey, multikey):
     layer1encrypt = vig_encryptPassword(password, vigkey)
-
+    print("Layer 1 Encrypted:", layer1encrypt)  # Print the encrypted password after the first layer
 
     layer2encrypt = aff_encrypt(layer1encrypt, affkey)
-
+    print("Layer 2 Encrypted:", layer2encrypt)  # Print the encrypted password after the second layer
 
     layer3encrypt = multi_multiplicative_encrypt(layer2encrypt, multikey)
+    print("Layer 3 Encrypted:", layer3encrypt)  # Print the encrypted password after the third layer
+
     layer4encrypt = transp_encryptMessage(layer3encrypt)
+    print("Layer 4 Encrypted:", layer4encrypt)  # Print the encrypted password after the fourth layer
+
+    #layer5encrypt = caesar_encrypt(layer4encrypt, caeskey)
+    #print("Layer 5 Encrypted:", layer5encrypt)  # Print the encrypted password after the fifth layer
+
+    print("Final Encrypt:")
+    print(layer4encrypt)
 
     return layer4encrypt
 
@@ -266,15 +275,19 @@ def main_decrypt(encryptedpw, multikey, affkey, vigkey):
     #print("Layer 1 Decrypted:", layer1decrypt)  # Print the encrypted password after the first layer
 
     layer2decrypt = transp_decryptMessage(encryptedpw)
-
+    print("Layer 2 Decrypted:", layer2decrypt)  # Print the encrypted password after the second layer
 
     layer3decrypt = multi_multiplicative_decrypt(layer2decrypt, multikey)
-
+    print("Layer 3 Decrypted:", layer3decrypt)  # Print the encrypted password after the third layer
 
     layer4decrypt = aff_decrypt(layer3decrypt, affkey)
-
+    print("Layer 4 Decrypted:", layer4decrypt)  # Print the encrypted password after the fourth layer
 
     layer5decrypt = vig_decryptPassword(layer4decrypt, vigkey)
+    print("Layer 5 Decrypted:", layer5decrypt)  # Print the encrypted password after the fifth layer
+
+    print("Final Decrypt:")
+    print(layer5decrypt)
 
     return layer5decrypt
 
@@ -285,6 +298,6 @@ vigkey = "KEY"
 affkey = aff_generate_key()
 multikey = 7
 
-#print("Original Password:", password)
+print("Original Password:", password)
 encr1 = main_encrypt(password, vigkey, affkey, multikey)
 decr = main_decrypt(encr1, multikey, affkey, vigkey)
